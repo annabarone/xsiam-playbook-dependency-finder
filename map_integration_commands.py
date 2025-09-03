@@ -4,12 +4,15 @@ import yaml
 import datetime
 from dotenv import load_dotenv
 
+from utils import get_demisto_path
+
 load_dotenv()
 
 by_pack_mapping = {}
 by_command_mapping = {}
+integration_to_pack_mapping = {}
 sub_dir_mapping = "mappings/content_type_to_packs.json"
-content_pack_dir = os.environ.get("DEMISTO_CONTENT_PACK_DIR_PATH")
+content_pack_dir = get_demisto_path()
 
 
 print("INFO: Starting mapping Integration Commands to packs.")
@@ -21,6 +24,7 @@ try:
 
     all_content_packs = [os.path.join(content_pack_dir, x) for x in mapping.get("Integrations", [])]
     for content_pack in all_content_packs:
+        pack_name = os.path.basename(content_pack)
         if "Integrations" in os.listdir(content_pack):
             integrations_dir = os.path.join(content_pack, "Integrations")
             for integration in os.listdir(integrations_dir):
@@ -41,6 +45,7 @@ try:
                 with open(yml, "r") as f:
                     data = yaml.safe_load(f)
 
+                integration_name = data.get("name")
                 commands = [x.get("name") for x in data.get("script", {}).get("commands", [])]
                 by_pack_mapping[integration_dir] = commands
 
@@ -50,6 +55,10 @@ try:
                     else:
                         by_command_mapping[cmd] = [integration_dir]
 
+                if integration_to_pack_mapping.get(integration_name):
+                    integration_to_pack_mapping[integration_name].append(pack_name)
+                else:
+                    integration_to_pack_mapping[integration_name] = [pack_name]
 
 except Exception as e:
     pass
@@ -59,5 +68,8 @@ with open("mappings/pack_to_integration_commands.json", "w") as f:
 
 with open("mappings/integration_commands_to_packs.json", "w") as f:
     json.dump(by_command_mapping, f, indent=4)
+
+with open("mappings/integration_to_packs.json", "w") as f:
+    json.dump(integration_to_pack_mapping, f, indent=4)
 
 print("INFO: Finished mapping Integration Commands to packs.")

@@ -4,12 +4,14 @@ import os
 import yaml
 from dotenv import load_dotenv
 
+from utils import get_demisto_path
+
 load_dotenv()
 
 by_pack_list = {}
 by_script_list = {}
 sub_dir_mapping = "mappings/content_type_to_packs.json"
-content_pack_dir = os.environ.get("DEMISTO_CONTENT_PACK_DIR_PATH")
+content_pack_dir = get_demisto_path()
 
 print("INFO: Starting mapping scripts to packs.")
 

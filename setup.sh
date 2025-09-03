@@ -51,6 +51,6 @@ echo "Running python scripts..."
 python map_content_pack_subdirs.py
 python map_integration_commands.py
 python map_scripts.py
-python dependency_finder.py
+python map_playbooks.py
 
 echo "Setup complete."

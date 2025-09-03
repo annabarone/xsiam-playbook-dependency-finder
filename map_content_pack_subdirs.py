@@ -3,10 +3,12 @@ import os
 
 from dotenv import load_dotenv
 
+from utils import get_demisto_path
+
 load_dotenv()
 
 mapping = {}
-content_pack_dir = os.environ.get("DEMISTO_CONTENT_PACK_DIR_PATH", "../content/Packs")
+content_pack_dir = get_demisto_path()
 
 print("INFO: Starting mapping marketplace packs to their available content types.")
 
