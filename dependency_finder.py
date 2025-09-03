@@ -93,7 +93,7 @@ for entry in entries:
             entry.mp_pack = f"? {len(command_map)} options"
 
 output = []
-output.append("PlaybookName,Command,Script,Playbook,Source,MP")
+output.append("PlaybookFileName,Command,Script,Playbook,Source,MP")
 for e in entries:
     output.append(f"{e.playbook_name},{e.command},{e.script},{e.playbook},{e.source},{e.mp_pack}")
 

@@ -48,9 +48,9 @@ pip install -r requirements.txt
 
 # Run the python scripts in order
 echo "Running python scripts..."
-python content_pack_subdirs.py
-python integration_commands.py
-python scripts.py
+python map_content_pack_subdirs.py
+python map_integration_commands.py
+python map_scripts.py
 python dependency_finder.py
 
 echo "Setup complete."
